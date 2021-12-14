@@ -1,5 +1,11 @@
 import { Controller } from '@nestjs/common';
-import { Crud, CrudController } from '@nestjsx/crud';
+import {
+  Crud,
+  CrudController,
+  CrudRequest,
+  Override,
+  ParsedRequest,
+} from '@nestjsx/crud';
 
 import { Company } from './entities/company.entity';
 
@@ -13,4 +19,13 @@ import { CompaniesService } from './company.service';
 @Controller('companies')
 export class CompaniesController implements CrudController<Company> {
   constructor(public service: CompaniesService) {}
+
+  get base(): CrudController<Company> {
+    return this;
+  }
+
+  @Override()
+  getMany(@ParsedRequest() req: CrudRequest) {
+    return this.base.getManyBase(req);
+  }
 }
