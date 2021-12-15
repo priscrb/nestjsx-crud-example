@@ -1,31 +1,19 @@
-import { Controller } from '@nestjs/common';
-import {
-  Crud,
-  CrudController,
-  CrudRequest,
-  Override,
-  ParsedRequest,
-} from '@nestjsx/crud';
+import { Controller, UseInterceptors } from '@nestjs/common';
+import { CrudController } from '@nestjsx/crud';
 
 import { Company } from './entities/company.entity';
 
 import { CompaniesService } from './company.service';
+import { TypeOrmInterceptor } from './typeorm.interceptor';
+// import { TypeOrmCrudService } from '@nestjsx/crud-typeorm';
 
-@Crud({
-  model: {
-    type: Company,
-  },
-})
+// @Crud({
+//   model: {
+//     type: Company,
+//   },
+// })
+@UseInterceptors(TypeOrmInterceptor)
 @Controller('companies')
 export class CompaniesController implements CrudController<Company> {
   constructor(public service: CompaniesService) {}
-
-  get base(): CrudController<Company> {
-    return this;
-  }
-
-  @Override()
-  getMany(@ParsedRequest() req: CrudRequest) {
-    return this.base.getManyBase(req);
-  }
 }
