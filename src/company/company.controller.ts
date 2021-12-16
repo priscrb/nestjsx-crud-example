@@ -1,19 +1,44 @@
-import { Controller, UseInterceptors } from '@nestjs/common';
-import { CrudController } from '@nestjsx/crud';
-
+import {
+  Controller,
+  Get,
+  InternalServerErrorException,
+  UseInterceptors,
+} from '@nestjs/common';
+import {
+  Crud,
+  CrudController,
+  CrudRequest,
+  CrudRequestInterceptor,
+  ParsedRequest,
+} from '@nestjsx/crud';
 import { Company } from './entities/company.entity';
-
 import { CompaniesService } from './company.service';
-import { TypeOrmInterceptor } from './typeorm.interceptor';
-// import { TypeOrmCrudService } from '@nestjsx/crud-typeorm';
+import { TypeOrmCrudService } from '@nestjsx/crud-typeorm';
 
-// @Crud({
-//   model: {
-//     type: Company,
-//   },
-// })
-@UseInterceptors(TypeOrmInterceptor)
+@Crud({
+  model: {
+    type: Company,
+  },
+})
 @Controller('companies')
 export class CompaniesController implements CrudController<Company> {
-  constructor(public service: CompaniesService) {}
+  constructor(
+    public service: CompaniesService, // public typeormService: TypeOrmCrudService<Company>,
+  ) {}
+
+  get base(): CrudController<Company> {
+    return this;
+  }
+
+  @UseInterceptors(CrudRequestInterceptor)
+  @Get('custom')
+  async customGetMany(@ParsedRequest() req: CrudRequest) {
+    if (this.base?.getManyBase) {
+      return this.service.getMany(req);
+    } else {
+      throw new InternalServerErrorException(
+        'No createOneBase method exists on CrudController, this should never happen',
+      );
+    }
+  }
 }
