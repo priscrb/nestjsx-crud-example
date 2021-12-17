@@ -7,4 +7,10 @@ export class Company {
   @Column() name: string;
 
   @Column() address: string;
+
+  @Column() employees: number;
+
+  @Column() openingDate: Date;
+
+  @Column() remote: boolean;
 }
