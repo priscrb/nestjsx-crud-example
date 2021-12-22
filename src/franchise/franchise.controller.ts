@@ -8,6 +8,7 @@ import {
 } from '@nestjsx/crud';
 import { Crud } from '../company/crud-helper';
 import { Franchise } from './entities/franchise.entity';
+import { FooInterceptor } from './foo.interceptor';
 import { FranchisesService } from './franchise.service';
 
 @Crud({
@@ -27,6 +28,7 @@ import { FranchisesService } from './franchise.service';
 export class FranchisesController implements CrudController<Franchise> {
   constructor(public service: FranchisesService) {}
 
+  @UseInterceptors(FooInterceptor)
   @Get('custom')
   async customGetMany(@ParsedRequest() req: CrudRequest) {
     return this.service.getMany(req);
