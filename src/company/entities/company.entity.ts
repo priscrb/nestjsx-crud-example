@@ -5,8 +5,9 @@ import {
   JoinTable,
   ManyToMany,
   JoinColumn,
+  OneToMany,
 } from 'typeorm';
-import { Franchise } from './franchise.entity';
+import { Franchise } from '../../franchise/entities/franchise.entity';
 
 @Entity()
 export class Company {
@@ -22,9 +23,9 @@ export class Company {
 
   @Column() remote: boolean;
 
-  @JoinTable()
-  @ManyToMany((type) => Franchise, (franchise) => franchise.companies, {
+  // @JoinTable()
+  @OneToMany((type) => Franchise, (franchise) => franchise.companies, {
     cascade: true,
   })
-  franchises: Franchise[];
+  franchises: Franchise;
 }

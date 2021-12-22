@@ -15,7 +15,7 @@ import {
   ParsedBody,
   ParsedRequest,
 } from '@nestjsx/crud';
-import { Crud } from './entities/crud-helper';
+import { Crud } from './crud-helper';
 import { Company } from './entities/company.entity';
 import { CompaniesService } from './company.service';
 
