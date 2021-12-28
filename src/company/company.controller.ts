@@ -31,6 +31,14 @@ export class CompaniesController implements CrudController<Company> {
 
   @Get('custom')
   async customGetMany(@ParsedRequest() req: CrudRequest) {
+    req.parsed.filter = [
+      {
+        field: 'name',
+        operator: '$eq',
+        value: 'mic',
+      },
+    ];
+
     return this.service.getMany(req);
   }
 
