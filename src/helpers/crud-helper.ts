@@ -1,6 +1,9 @@
 import { CrudRoutesFactory } from '@nestjsx/crud';
-// import { CrudOptions } from '@nestjsx/crud';
-import { CrudOptionsInterface } from './crud-options.interface';
+import { CrudOptionsInterface } from '../interfaces/crud-options.interface';
+
+/**
+ * CRUD decorator wrapper
+ */
 
 // eslint-disable-next-line @typescript-eslint/ban-types
 export const Crud = (options: CrudOptionsInterface) => (target: Object) => {

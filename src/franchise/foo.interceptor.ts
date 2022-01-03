@@ -7,6 +7,10 @@ import {
 import { PARSED_CRUD_REQUEST_KEY } from '@nestjsx/crud/lib/constants';
 import { Observable } from 'rxjs';
 
+/**
+ * Interceptor for possibly having re-usable defaults
+ */
+
 @Injectable()
 export class FooInterceptor implements NestInterceptor {
   intercept(context: ExecutionContext, next: CallHandler): Observable<any> {
